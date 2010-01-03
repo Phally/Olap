@@ -73,12 +73,9 @@ class FactsBehavior extends ModelBehavior {
 		}
 		
 		$model->data = $data;
-		if ($model->getDataSource()->create($model)) {
-			$model->id = null;
-			return true;
-		}
-		
-		return false;
+		$success = $model->getDataSource()->create($model);
+		$model->id = null;
+		return $success;
 	}
 }
 ?>
