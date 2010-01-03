@@ -8,4 +8,4 @@ OLAP plugin for CakePHP
 - 100% test coverage
 
 On the TODO list:
-	- Automagic history in Dimension using the TimeDimension.
+	- Automagic history in Dimensions using the TimeDimension.
