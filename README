@@ -1,0 +1,8 @@
+OLAP plugin for CakePHP
+
+- Two behaviors:
+	- FactsBehavior
+	- DimensionBehavior
+- Docblocks in the classes contain the usage.
+- Different example can be found in the test cases.
+- 100% test coverage
