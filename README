@@ -8,4 +8,5 @@ OLAP plugin for CakePHP
 - 100% test coverage
 
 On the TODO list:
+	- A useful form of cache, perhaps just using queryCache...
 	- Automagic history in Dimensions using the TimeDimension.
