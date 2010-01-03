@@ -20,6 +20,14 @@
 class FactsBehavior extends ModelBehavior {
 
 /**
+ * Variable that holds the query cache for the dimensions.
+ * 
+ * @var array
+ * @access public
+ */
+	public $dimensionIds = array();
+
+/**
  * Method to save facts.
  * 
  * Dimension records will be automatically associated/created. All 
@@ -54,20 +62,25 @@ class FactsBehavior extends ModelBehavior {
 	public function saveFact($model, $data) {
 		foreach ($data as $alias => $values) {
 			if (isset($model->belongsTo[$alias])) {
-				
-				$foreignId = $model->{$alias}->field(
-					$model->{$alias}->primaryKey, 
-					array_intersect_key($values, array_flip($model->{$alias}->getUniqueFields()))
-				);
-				
-				if (!$foreignId) {
-					$model->{$alias}->create($values);
-					$model->{$alias}->save();
-					$data[$model->belongsTo[$alias]['foreignKey']] = $model->{$alias}->id;
-				} else {
-					$data[$model->belongsTo[$alias]['foreignKey']] = $foreignId;
-				}
-				
+				$serializedConditions = serialize($conditions = array_intersect_key($values, array_flip($model->{$alias}->getUniqueFields())));
+
+				$cached = isset($this->dimensionIds[$model->alias][$alias][$serializedConditions]);
+				if (!$cached) { 
+					$foreignId = $model->{$alias}->field(
+						$model->{$alias}->primaryKey, 
+						$conditions
+					);
+
+					if (!$foreignId) {
+						$model->{$alias}->create($values);
+						$model->{$alias}->save();
+						$this->dimensionIds[$model->alias][$alias][$serializedConditions] = $model->{$alias}->id;
+					} else {
+						$this->dimensionIds[$model->alias][$alias][$serializedConditions] = $foreignId;
+					} 
+				} 				
+				$data[$model->belongsTo[$alias]['foreignKey']] = $this->dimensionIds[$model->alias][$alias][$serializedConditions];
+ 
 				unset($data[$alias]);
 			}
 		}

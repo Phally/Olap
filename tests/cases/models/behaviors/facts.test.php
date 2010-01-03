@@ -96,6 +96,22 @@ class FactsBehaviorTestCase extends CakeTestCase {
 		);
 		
 		$this->assertIdentical($result, $expected, 'New record made for Moment and the rest associated. Fact has been saved. %s');
+		
+		$expected = array(
+			'Request' => array(
+				'Location' => array(
+					'a:1:{s:4:"path";s:17:"app/articles/show";}' => '1'
+				),
+				'Ip' => array(
+					'a:1:{s:7:"address";s:13:"192.168.1.100";}' => '1'
+				),
+				'Moment' => array(
+					'a:4:{s:4:"hour";i:19;s:3:"day";i:22;s:5:"month";i:9;s:4:"year";i:2010;}' => '5'
+				)
+			)
+		);
+		
+		$this->assertIdentical($this->Request->Behaviors->Facts->dimensionIds, $expected, 'Dimension records properly cached. %s');
 	}
 	
 	public function testSaveFactWithAllDimensionRecordsCreated() {
@@ -151,6 +167,22 @@ class FactsBehaviorTestCase extends CakeTestCase {
 		);
 		
 		$this->assertIdentical($result, $expected, 'New records are made in the dimensions. Fact has been saved. %s');
+		
+		$expected = array(
+			'Request' => array(
+				'Location' => array(
+					'a:1:{s:4:"path";s:17:"app/pictures/edit";}' => '5'
+				),
+				'Ip' => array(
+					'a:1:{s:7:"address";s:15:"123.123.123.123";}' => '5'
+				),
+				'Moment' => array(
+					'a:4:{s:4:"hour";i:21;s:3:"day";i:14;s:5:"month";i:2;s:4:"year";i:2009;}' => '5'
+				)
+			)
+		);
+		
+		$this->assertIdentical($this->Request->Behaviors->Facts->dimensionIds, $expected, 'Dimension records properly cached. %s');
 	}
 
 	public function testSaveFactWithNoDimensionRecordsCreated() {
@@ -207,6 +239,22 @@ class FactsBehaviorTestCase extends CakeTestCase {
 		);
 		
 		$this->assertIdentical($result, $expected, 'All dimension records are found and associated. Fact has been saved. %s');
+		
+		$expected = array(
+			'Request' => array(
+				'Location' => array(
+					'a:1:{s:4:"path";s:32:"content_management/pages/display";}' => '3'
+				),
+				'Ip' => array(
+					'a:1:{s:7:"address";s:9:"127.0.0.1";}' => '4'
+				),
+				'Moment' => array(
+					'a:4:{s:4:"hour";i:8;s:3:"day";i:14;s:5:"month";i:9;s:4:"year";i:2010;}' => '3'
+				)
+			)
+		);
+		
+		$this->assertIdentical($this->Request->Behaviors->Facts->dimensionIds, $expected, 'Dimension records properly cached. %s');
 	}
 
 	public function testFind() {

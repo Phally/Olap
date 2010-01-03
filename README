@@ -3,10 +3,16 @@ OLAP plugin for CakePHP 1.3
 - Two behaviors:
 	- FactsBehavior
 	- DimensionBehavior
+
 - Docblocks in the classes contain the usage.
+
 - Different example can be found in the test cases.
+
+- IDs for Dimension records are cached for the duration of the
+  request/process, to speed up saving multiple fact in one	
+  process.
+
 - 100% test coverage
 
 On the TODO list:
-	- A useful form of cache, perhaps just using queryCache...
-	- Automagic history in Dimensions using the TimeDimension.
+- Automagic history in Dimensions using the TimeDimension.
