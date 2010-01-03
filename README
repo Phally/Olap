@@ -6,3 +6,6 @@ OLAP plugin for CakePHP
 - Docblocks in the classes contain the usage.
 - Different example can be found in the test cases.
 - 100% test coverage
+
+On the TODO list:
+	- Automagic history in Dimension using the TimeDimension.
