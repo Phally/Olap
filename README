@@ -1,4 +1,4 @@
-OLAP plugin for CakePHP
+OLAP plugin for CakePHP 1.3
 
 - Two behaviors:
 	- FactsBehavior
