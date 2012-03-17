@@ -29,10 +29,10 @@ class DimensionBehaviorTestCase extends CakeTestCase {
 		'plugin.olap.request',
 		'plugin.olap.location'
 	);
-	
+
 	private $Moment = null;
 	private $Ip = null;
-	
+
 	public function startTest() {
 		$this->Moment = ClassRegistry::init('Moment');
 		$this->Ip = ClassRegistry::init('Ip');
@@ -40,14 +40,14 @@ class DimensionBehaviorTestCase extends CakeTestCase {
 
 	public function testGetUniqueFields() {
 		$expected = array('day', 'month', 'year');
-		$result = $this->Moment->getUniqueFields(); 
+		$result = $this->Moment->getUniqueFields();
 		$this->assertIdentical($result, $expected);
-		
+
 		$expected = array('address');
-		$result = $this->Ip->getUniqueFields(); 
+		$result = $this->Ip->getUniqueFields();
 		$this->assertIdentical($result, $expected);
 	}
-	
+
 	public function endTest() {
 		ClassRegistry::flush();
 		unset($this->Moment);
