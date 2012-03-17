@@ -1,54 +1,50 @@
 <?php
-class Ip extends Model {
+class Ip extends CakeTestModel {
 	public $actsAs = array('Olap.Dimension');
-	public $hasMany = array(
-		'Request'
-	);
+	public $hasMany = array('Request');
 }
 
-class Moment extends Model {
+class Moment extends CakeTestModel {
 	public $actsAs = array('Olap.Dimension' => array('unique' => array('day', 'month', 'year')));
-	public $hasMany = array(
-		'Request'
-	);
+	public $hasMany = array('Request');
 }
 
-class Request extends Model {
+class Request extends CakeTestModel {
 	public $actsAs = array('Olap.Facts');
-	public $belongsTo = array(
-		'Ip',
-		'Location',
-		'Moment'
-	);
+	public $belongsTo = array('Ip', 'Location', 'Moment');
 }
 
-class DimensionBehaviorTestCase extends CakeTestCase {
+class DimensionBehaviorTest extends CakeTestCase {
 	public $fixtures = array(
 		'plugin.olap.moment',
 		'plugin.olap.ip',
 		'plugin.olap.request',
 		'plugin.olap.location'
 	);
-	
+
 	private $Moment = null;
 	private $Ip = null;
-	
-	public function startTest() {
+
+	public function setUp() {
+		parent::setUp();
+
 		$this->Moment = ClassRegistry::init('Moment');
 		$this->Ip = ClassRegistry::init('Ip');
 	}
 
 	public function testGetUniqueFields() {
 		$expected = array('day', 'month', 'year');
-		$result = $this->Moment->getUniqueFields(); 
-		$this->assertIdentical($result, $expected);
-		
+		$result = $this->Moment->getUniqueFields();
+		$this->assertSame($result, $expected);
+
 		$expected = array('address');
-		$result = $this->Ip->getUniqueFields(); 
-		$this->assertIdentical($result, $expected);
+		$result = $this->Ip->getUniqueFields();
+		$this->assertSame($result, $expected);
 	}
-	
-	public function endTest() {
+
+	public function tearDown() {
+		parent::tearDown();
+
 		ClassRegistry::flush();
 		unset($this->Moment);
 		unset($this->Ip);
