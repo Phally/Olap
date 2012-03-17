@@ -1,13 +1,13 @@
-<?php 
+<?php
 class IpFixture extends CakeTestFixture {
 	public $name = 'Ip';
-	
+
 	public $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
 		'address' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 15),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1))
 	);
-	
+
 	public $records = array(
 		array('id' => 1, 'address' => '192.168.1.100'),
 		array('id' => 2, 'address' => '77.132.125.12'),
