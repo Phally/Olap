@@ -19,56 +19,51 @@
  * 		public $actsAs = array('Olap.Dimension' => array('unique' => array('day', 'month', 'year')));
  * }
  *
- * @author Frank de Graaf (Phally)
+ * @author  Frank de Graaf (Phally)
  * @license MIT license
- * @link http://github.com/phally
+ * @link    http://github.com/Phally
  */
 class DimensionBehavior extends ModelBehavior {
 
-/**
- * Variable that holds the options.
- *
- * @var array
- * @access private
- */
-	private $options = array();
+	/**
+	 * Property that holds the options.
+	 *
+	 * @var array
+	 */
+	protected $_options = array();
 
-/**
- * Variable that holds the default values.
- *
- * @var array
- * @access private
- */
-	private $defaults = array(
+	/**
+	 * Property that holds the default values.
+	 *
+	 * @var array
+	 */
+	protected $_defaults = array(
 		'unique' => array()
 	);
 
-/**
- * Startup method to set the options.
- *
- * @param 	object 	$model 		Model instance given by CakePHP.
- * @param 	array 	$options 	Options from the $actsAs definition.
- * @return 	void
- * @access 	public
- */
-	public function setup($model, $options = array()) {
-		$this->options[$model->alias] = array_merge($this->defaults, $options);
+	/**
+	 * Startup method to set the options.
+	 *
+	 * @param Model $Model   Model instance given by CakePHP.
+	 * @param array $options Options from the $actsAs definition.
+	 */
+	public function setup(Model $Model, array $options = array()) {
+		$this->_options[$Model->alias] = $options + $this->_defaults;
 	}
 
-/**
- * Method to get the identifying fields for the model.
- *
- * @param 	object 	$model 		Model instance given by CakePHP.
- * @return 	array 				List of identifying fields.
- * @access 	public
- */
-	public function getUniqueFields($model) {
-		if (!$this->options[$model->alias]['unique']) {
-			$fields = $model->schema();
-			unset($fields[$model->primaryKey]);
-			$this->options[$model->alias]['unique'] = array_keys($fields);
+	/**
+	 * Method to get the identifying fields for the model.
+	 *
+	 * @param  Model $Model Model instance given by CakePHP.
+	 * @return array        List of identifying fields.
+	 */
+	public function getUniqueFields(Model $Model) {
+		if (!$this->_options[$Model->alias]['unique']) {
+			$fields = $Model->schema();
+			unset($fields[$Model->primaryKey]);
+			$this->_options[$Model->alias]['unique'] = array_keys($fields);
 		}
-		return $this->options[$model->alias]['unique'];
+		return $this->_options[$Model->alias]['unique'];
 	}
 }
 ?>

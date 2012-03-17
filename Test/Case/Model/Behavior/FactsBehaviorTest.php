@@ -19,7 +19,7 @@ class Request extends CakeTestModel {
 	public $belongsTo = array('Ip', 'Location', 'Moment');
 }
 
-class FactsBehaviorTestCase extends CakeTestCase {
+class FactsBehaviorTest extends CakeTestCase {
 	public $fixtures = array(
 		'plugin.olap.moment',
 		'plugin.olap.ip',
@@ -27,16 +27,16 @@ class FactsBehaviorTestCase extends CakeTestCase {
 		'plugin.olap.request',
 	);
 
-	private $Request = null;
+	protected $_Request = null;
 
 	public function setUp() {
 		parent::setUp();
 
-		$this->Request = ClassRegistry::init('Request');
+		$this->_Request = ClassRegistry::init('Request');
 	}
 
 	public function testSaveFactWithOneDimensionRecordCreated() {
-		$this->Request->saveFact(array(
+		$this->_Request->saveFact(array(
 			'Location' => array(
 				'path' => 'app/articles/show'
 			),
@@ -52,7 +52,7 @@ class FactsBehaviorTestCase extends CakeTestCase {
 			'number_of_visits' => 18
 		));
 
-		$result = $this->Request->find('first', array(
+		$result = $this->_Request->find('first', array(
 			'conditions' => array(
 				'Location.path' => 'app/articles/show',
 				'Ip.address' => '192.168.1.100',
@@ -103,11 +103,11 @@ class FactsBehaviorTestCase extends CakeTestCase {
 			)
 		);
 
-		$this->assertSame($this->Request->Behaviors->Facts->dimensionIds, $expected);
+		$this->assertSame($this->_Request->Behaviors->Facts->dimensionIds, $expected);
 	}
 
 	public function testSaveFactWithAllDimensionRecordsCreated() {
-		$this->Request->saveFact(array(
+		$this->_Request->saveFact(array(
 			'Location' => array(
 				'path' => 'app/pictures/edit'
 			),
@@ -123,7 +123,7 @@ class FactsBehaviorTestCase extends CakeTestCase {
 			'number_of_visits' => 1232
 		));
 
-		$result = $this->Request->find('first', array(
+		$result = $this->_Request->find('first', array(
 			'conditions' => array(
 				'Location.path' => 'app/pictures/edit',
 				'Ip.address' => '123.123.123.123',
@@ -174,11 +174,11 @@ class FactsBehaviorTestCase extends CakeTestCase {
 			)
 		);
 
-		$this->assertSame($this->Request->Behaviors->Facts->dimensionIds, $expected);
+		$this->assertSame($this->_Request->Behaviors->Facts->dimensionIds, $expected);
 	}
 
 	public function testSaveFactWithNoDimensionRecordsCreated() {
-		$this->Request->saveFact(array(
+		$this->_Request->saveFact(array(
 			'Location' => array(
 				'path' => 'content_management/pages/display'
 			),
@@ -194,7 +194,7 @@ class FactsBehaviorTestCase extends CakeTestCase {
 			'number_of_visits' => 12345
 		));
 
-		$result = $this->Request->find('first', array(
+		$result = $this->_Request->find('first', array(
 			'conditions' => array(
 				'Location.path' => 'content_management/pages/display',
 				'Ip.address' => '127.0.0.1',
@@ -246,7 +246,7 @@ class FactsBehaviorTestCase extends CakeTestCase {
 			)
 		);
 
-		$this->assertSame($this->Request->Behaviors->Facts->dimensionIds, $expected);
+		$this->assertSame($this->_Request->Behaviors->Facts->dimensionIds, $expected);
 	}
 
 	public function testFind() {
@@ -263,8 +263,8 @@ class FactsBehaviorTestCase extends CakeTestCase {
 			)
 		);
 
-		$this->Request->virtualFields = array('count' => 'SUM(Request.number_of_visits)');
-		$result = $this->Request->find('all', array(
+		$this->_Request->virtualFields = array('count' => 'SUM(Request.number_of_visits)');
+		$result = $this->_Request->find('all', array(
 			'fields' => array('Ip.id', 'Ip.address', 'count'),
 			'conditions' => array(
 				'Moment.day' => 14,
@@ -281,7 +281,7 @@ class FactsBehaviorTestCase extends CakeTestCase {
 		parent::tearDown();
 
 		ClassRegistry::flush();
-		unset($this->Request);
+		unset($this->_Request);
 	}
 }
 ?>
